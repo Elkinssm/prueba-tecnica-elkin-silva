@@ -1,5 +1,6 @@
 package com.elkin.pruebaTecnica.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "persona")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "edad", "identificacion", "direccion", "genero"})
 public class Persona {
 
     @Id
@@ -16,7 +18,7 @@ public class Persona {
     private Integer edad;
     private String identificacion;
     private String direccion;
-    private int telefono;
+    private String telefono;
     private GeneroEnum genero;
 
 

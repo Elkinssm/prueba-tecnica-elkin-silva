@@ -9,6 +9,5 @@ import java.util.Optional;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-//    @Query("SELECT p.nombre, p.direccion, p.telefono FROM Persona p")
-//    public Optional<List<Cliente>> listUser();
+
 }
