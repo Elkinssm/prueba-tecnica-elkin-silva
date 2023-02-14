@@ -3,18 +3,19 @@ package com.elkin.pruebaTecnica.persistence.entity;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Data
 @Entity
 @Table(name = "cliente")
 public class Cliente extends Persona {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private String clienteId;
+    @Column(name = "contrasenia")
     private String contrasenia;
+    @Column(name = "estado")
     private Boolean estado;
 
 

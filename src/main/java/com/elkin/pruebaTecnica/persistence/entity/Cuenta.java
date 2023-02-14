@@ -1,9 +1,10 @@
 package com.elkin.pruebaTecnica.persistence.entity;
 
-import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
@@ -18,4 +19,8 @@ public class Cuenta {
     private TipoCuentaEnum tipoCuenta;
     private Double saldoInicial;
     private Boolean estado;
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 }
