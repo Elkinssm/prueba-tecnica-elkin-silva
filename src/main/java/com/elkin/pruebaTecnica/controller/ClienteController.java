@@ -2,7 +2,7 @@ package com.elkin.pruebaTecnica.controller;
 
 import com.elkin.pruebaTecnica.persistence.entity.Cliente;
 import com.elkin.pruebaTecnica.service.UsuarioService;
-import com.elkin.pruebaTecnica.service.dto.UsuarioInDTO;
+import com.elkin.pruebaTecnica.service.dto.UsuarioDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +19,8 @@ public class ClienteController {
     }
 
     @PostMapping
-    public Cliente createClient(@RequestBody UsuarioInDTO usuarioInDTO) {
-        return this.clienteService.crearCliente(usuarioInDTO);
+    public Cliente createClient(@RequestBody UsuarioDTO usuarioDTO) {
+        return this.clienteService.crearCliente(usuarioDTO);
     }
 
     @GetMapping
