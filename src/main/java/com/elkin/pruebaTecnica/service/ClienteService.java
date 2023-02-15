@@ -13,35 +13,6 @@ import java.util.*;
 //Logica de negocio
 @Service
 public class ClienteService {
-
-    //    private final ClienteRepository clienteRepository;
-//    private final UsuarioMapper usuarioMapper;
-//    private final PersonaRepository personaRepository;
-//
-//    public UsuarioService(ClienteRepository clienteRepository, UsuarioMapper usuarioMapper, PersonaRepository personaRepository) {
-//        this.clienteRepository = clienteRepository;
-//        this.usuarioMapper = usuarioMapper;
-//        this.personaRepository = personaRepository;
-//    }
-//
-//
-//    public Cliente crearCliente(UsuarioDTO usuarioDTO) {
-//        Cliente cliente = usuarioMapper.toCliente(usuarioDTO);
-//        return clienteRepository.save(cliente);
-//    }
-//
-//    public List<Cliente> findAll() {
-//        return this.clienteRepository.findAll();
-//    }
-//
-//
-//    public void deleteById(Long id) {
-//        Optional<Cliente> optionalCliente = this.clienteRepository.findById(id);
-//        if (optionalCliente.isEmpty()) {
-//            throw new AppExceptions("Cliente no encontrado", HttpStatus.NOT_FOUND);
-//        }
-//        this.clienteRepository.deleteById(id);
-//    }
     private ClienteRepository clienteRepository;
     ObjectMapper mapper;
 
