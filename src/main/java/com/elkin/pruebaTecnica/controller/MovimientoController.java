@@ -2,10 +2,13 @@ package com.elkin.pruebaTecnica.controller;
 
 import com.elkin.pruebaTecnica.persistence.entity.Movimiento;
 import com.elkin.pruebaTecnica.service.MovimientosService;
+import com.elkin.pruebaTecnica.service.dto.CrearCuentaDTO;
+import com.elkin.pruebaTecnica.service.dto.MovimientoDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/movimientos")
@@ -16,18 +19,20 @@ public class MovimientoController {
         this.movimientosService = movimientosService;
     }
 
-    @PostMapping
-    public Movimiento createClient(@RequestBody Movimiento movimiento) {
-        return this.movimientosService.crearMovimiento(movimiento);
+    @GetMapping()
+    public ResponseEntity<Collection<MovimientoDTO>> getAllMovimientos() {
+        return new ResponseEntity<>(movimientosService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping
-    public List<Movimiento> findAll() {
-        return this.movimientosService.findAll();
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCuentaById(@PathVariable Long id) {
+        MovimientoDTO movimientoDTO = movimientosService.findMovimientoById(id);
+        return new ResponseEntity<>(movimientoDTO, HttpStatus.OK);
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id")Long id){
-        this.movimientosService.deleteById(id);
-        return ResponseEntity.noContent().build();
+
+    @PostMapping()
+    public ResponseEntity<?> saveMovimiento(@RequestBody MovimientoDTO movimientoDTO) {
+        movimientosService.saveMovimiento(movimientoDTO);
+        return new ResponseEntity<>("Address created successfully!!", HttpStatus.CREATED);
     }
 }

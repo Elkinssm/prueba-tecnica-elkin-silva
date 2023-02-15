@@ -15,14 +15,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "movimientos")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer"})
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
 public class Movimiento {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private LocalDateTime fecha;
-    private String tipoMovimiento;
+    private String movimiento;
     private Double valor;
     private Double saldo;
+    private Double saldoInicial;
+    private TransaccionEnum transaccionEnum;
+    @ManyToOne
+    @JoinColumn(name = "cuenta_id")
+    private Cuenta cuenta;
 
 }

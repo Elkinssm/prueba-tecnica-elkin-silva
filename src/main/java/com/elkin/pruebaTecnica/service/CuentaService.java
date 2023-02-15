@@ -119,12 +119,10 @@ public class CuentaService {
 
     public void saveMethod(CrearCuentaDTO crearCuentaDTO) {
         if (crearCuentaDTO != null) {
-
             Long clienteId = crearCuentaDTO.getClienteId();
             if (clienteId == null || cuentaRepository.findById(clienteId).isEmpty()) {
                 throw new AppExceptions("ID de cliente inválido", HttpStatus.BAD_REQUEST);
             }
-
             Cuenta cuenta = mapper.convertValue(crearCuentaDTO, Cuenta.class);
             cuentaRepository.save(cuenta);
         } else {

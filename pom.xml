@@ -43,6 +43,14 @@
             <artifactId>modelmapper</artifactId>
             <version>3.0.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx</artifactId>
+            <version>11</version>
+            <type>pom</type>
+        </dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>

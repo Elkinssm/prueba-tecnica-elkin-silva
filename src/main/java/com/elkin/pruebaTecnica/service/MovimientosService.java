@@ -1,39 +1,129 @@
 package com.elkin.pruebaTecnica.service;
 
 import com.elkin.pruebaTecnica.exceptions.AppExceptions;
+import com.elkin.pruebaTecnica.persistence.entity.Cuenta;
 import com.elkin.pruebaTecnica.persistence.entity.Movimiento;
+import com.elkin.pruebaTecnica.persistence.entity.TransaccionEnum;
+import com.elkin.pruebaTecnica.persistence.repository.CuentaRepository;
 import com.elkin.pruebaTecnica.persistence.repository.MovimientoRepository;
+
+import java.util.*;
+
+import com.elkin.pruebaTecnica.service.dto.MovimientoDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.data.util.Pair;
+
+import java.util.AbstractMap.SimpleEntry;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class MovimientosService {
 
-    private final MovimientoRepository movimientoRepository;
+    private MovimientoRepository movimientoRepository;
+    ObjectMapper mapper;
+    private final CuentaRepository cuentaRepository;
 
-    public MovimientosService(MovimientoRepository movimientoRepository) {
+    public MovimientosService(MovimientoRepository movimientoRepository, ObjectMapper mapper, CuentaRepository cuentaRepository) {
         this.movimientoRepository = movimientoRepository;
+        this.mapper = mapper;
+        this.cuentaRepository = cuentaRepository;
     }
 
+//    public void saveMethod(MovimientoDTO movimientoDTO) {
+//        if (movimientoDTO != null) {
+//            Movimiento movimiento = mapper.convertValue(movimientoDTO, Movimiento.class);
+//            var (result , saldo) = actualizarSaldoCuenta(movimientoDTO, movimiento);
+//
+//            if (!result){
+//                throw new AppExceptions("Saldo no disponible", HttpStatus.NOT_FOUND);
+//            }
+//            var textoTransaccion = movimiento.getTransaccionEnum().name().equals(TransaccionEnum.CREDITO.name()) ? "Deposito de : " + movimiento.getValor().toString() : "Retiro de :" + movimiento.getValor().toString();
+//            movimiento.setSaldoInicial(movimiento.getCuenta().getSaldoInicial());
+//            movimiento.setMovimiento(textoTransaccion);
+//            movimiento.setSaldo();
+//            movimientoRepository.save(movimiento);
+//        } else {
+//            throw new AppExceptions("Cuenta no encontrada", HttpStatus.NOT_FOUND);
+//        }
+//    }
+//
+//    private (Boolean, Double) actualizarSaldoCuenta(MovimientoDTO movimientoDTO, Movimiento movimiento) {
+//        var saldo = movimiento.getCuenta().getSaldoInicial() - movimientoDTO.getValor();
+//        if (saldo < 0 ){
+//            return (false , saldo );
+//        }
+//        Cuenta cuenta = movimiento.getCuenta();
+//        cuenta.setSaldoInicial(saldo);
+//        cuentaRepository.save(cuenta);
+//        return (true,saldo);
+//    }
 
-    public Movimiento crearMovimiento(Movimiento movimiento) {
-//        Cliente cliente = mapper.map(usuarioInDTO);
-        return this.movimientoRepository.save(movimiento);
-    }
 
-    public List<Movimiento> findAll() {
-        return this.movimientoRepository.findAll();
-    }
+    public void saveMethod(MovimientoDTO movimientoDTO) {
+        if (movimientoDTO != null) {
+            Movimiento movimiento = mapper.convertValue(movimientoDTO, Movimiento.class);
+            SimpleEntry<Boolean, Double> result = actualizarSaldoCuenta(movimientoDTO, movimiento);
 
-    public void deleteById(Long id) {
-        Optional<Movimiento> optionalMovimiento = this.movimientoRepository.findById(id);
-        if (optionalMovimiento.isEmpty()) {
-            throw new AppExceptions("El movimiento no existe", HttpStatus.NOT_FOUND);
+            if (!result.getKey()) {
+                throw new AppExceptions("Saldo no disponible", HttpStatus.NOT_FOUND);
+            }
+            String textoTransaccion = movimiento.getTransaccionEnum().name().equals(TransaccionEnum.CREDITO.name()) ? "Deposito de : " + movimiento.getValor().toString() : "Retiro de :" + movimiento.getValor().toString();
+            movimiento.setSaldoInicial(movimiento.getCuenta().getSaldoInicial());
+            movimiento.setMovimiento(textoTransaccion);
+            movimiento.setSaldo(result.getValue());
+            movimientoRepository.save(movimiento);
+        } else {
+            throw new AppExceptions("Cuenta no encontrada", HttpStatus.NOT_FOUND);
         }
-        this.movimientoRepository.deleteById(id);
+    }
+
+    private SimpleEntry<Boolean, Double> actualizarSaldoCuenta(MovimientoDTO movimientoDTO, Movimiento movimiento) {
+        double saldo = movimiento.getCuenta().getSaldoInicial() - movimientoDTO.getValor();
+        if (saldo < 0) {
+            return new SimpleEntry<>(false, saldo);
+        }
+        Cuenta cuenta = movimiento.getCuenta();
+        cuenta.setSaldoInicial(saldo);
+        cuentaRepository.save(cuenta);
+        return new SimpleEntry<>(true, saldo);
+    }
+
+
+    public Collection<MovimientoDTO> findAll() {
+        List<Movimiento> movimientoList = movimientoRepository.findAll();
+        Set<MovimientoDTO> movimientoDTO = new HashSet<>();
+        for (Movimiento movimiento : movimientoList) {
+            movimientoDTO.add(mapper.convertValue(movimiento, MovimientoDTO.class));
+
+        }
+        return movimientoDTO;
+    }
+
+
+    public MovimientoDTO findMovimientoById(Long id) {
+        Movimiento movimiento = movimientoRepository.findById(id).get();
+        MovimientoDTO movimientoDTO = null;
+        if (movimiento.getId() != null) {
+            movimientoDTO = mapper.convertValue(movimiento, MovimientoDTO.class);
+        }
+        return movimientoDTO;
+    }
+
+    public void saveMovimiento(MovimientoDTO movimientoDTO) {
+        saveMethod(movimientoDTO);
+    }
+
+    public void deleteMovimiento(Long id) {
+        Movimiento movimiento = movimientoRepository.findById(id).get();
+        movimientoRepository.deleteById(id);
+    }
+
+    public void updateMovimiento(MovimientoDTO movimientoDTO) {
+        saveMethod(movimientoDTO);
     }
 
 

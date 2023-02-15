@@ -6,13 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "cuenta")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer"})
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
 public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,12 +27,8 @@ public class Cuenta {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-//    public Cuenta(String numeroCuenta, TipoCuentaEnum tipoCuenta, Double saldoInicial, Boolean estado, Long clienteId) {
-//        this.numeroCuenta = numeroCuenta;
-//        this.tipoCuenta = tipoCuenta;
-//        this.saldoInicial = saldoInicial;
-//        this.estado = estado;
-//        this.cliente = new Cliente();
-//        this.cliente.setId(clienteId);
-//    }
+    @OneToMany(mappedBy = "movimiento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Movimiento> movimientos = new ArrayList<>();
+
+
 }
