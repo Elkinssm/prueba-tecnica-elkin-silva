@@ -8,6 +8,7 @@ import com.elkin.pruebaTecnica.persistence.repository.ClienteRepository;
 import com.elkin.pruebaTecnica.persistence.repository.CuentaRepository;
 import com.elkin.pruebaTecnica.service.dto.CrearCuentaDTO;
 import com.elkin.pruebaTecnica.service.dto.CuentaOutDTO;
+import com.elkin.pruebaTecnica.service.dto.UsuarioDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -111,24 +112,37 @@ public class CuentaService {
 //    }
     private CuentaRepository cuentaRepository;
     ObjectMapper mapper;
+    private final ClienteRepository clienteRepository;
 
-    public CuentaService(CuentaRepository cuentaRepository, ObjectMapper mapper) {
+    public CuentaService(CuentaRepository cuentaRepository, ObjectMapper mapper,
+                         ClienteRepository clienteRepository) {
         this.cuentaRepository = cuentaRepository;
         this.mapper = mapper;
+        this.clienteRepository = clienteRepository;
     }
 
     public void saveMethod(CrearCuentaDTO crearCuentaDTO) {
         if (crearCuentaDTO != null) {
             Long clienteId = crearCuentaDTO.getClienteId();
-            if (clienteId == null || cuentaRepository.findById(clienteId).isEmpty()) {
+            Optional<Cliente> cliente = clienteRepository.findById(clienteId);
+            if (cliente.isEmpty()) {
                 throw new AppExceptions("ID de cliente inválido", HttpStatus.BAD_REQUEST);
-            }
+           }
             Cuenta cuenta = mapper.convertValue(crearCuentaDTO, Cuenta.class);
             cuentaRepository.save(cuenta);
         } else {
             throw new AppExceptions("Cuenta no encontrada", HttpStatus.NOT_FOUND);
         }
     }
+
+//    public void saveMethod(CrearCuentaDTO crearCuentaDTO) {
+//        if (crearCuentaDTO != null) {
+//            Cuenta cuenta = mapper.convertValue(crearCuentaDTO, Cuenta.class);
+//            cuentaRepository.save(cuenta);
+//        } else {
+//            throw new AppExceptions("Usuario no encontrado", HttpStatus.NOT_FOUND);
+//        }
+//    }
 
     public Collection<CrearCuentaDTO> findAll() {
         List<Cuenta> cuentaList = cuentaRepository.findAll();
