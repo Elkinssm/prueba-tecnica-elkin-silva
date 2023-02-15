@@ -6,19 +6,15 @@ import com.elkin.pruebaTecnica.persistence.entity.Movimiento;
 import com.elkin.pruebaTecnica.persistence.entity.TransaccionEnum;
 import com.elkin.pruebaTecnica.persistence.repository.CuentaRepository;
 import com.elkin.pruebaTecnica.persistence.repository.MovimientoRepository;
-
-import java.util.*;
-
 import com.elkin.pruebaTecnica.service.dto.MovimientoDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.data.util.Pair;
-
-import java.util.AbstractMap.SimpleEntry;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class MovimientosService {
@@ -32,36 +28,6 @@ public class MovimientosService {
         this.mapper = mapper;
         this.cuentaRepository = cuentaRepository;
     }
-
-//    public void saveMethod(MovimientoDTO movimientoDTO) {
-//        if (movimientoDTO != null) {
-//            Movimiento movimiento = mapper.convertValue(movimientoDTO, Movimiento.class);
-//            var (result , saldo) = actualizarSaldoCuenta(movimientoDTO, movimiento);
-//
-//            if (!result){
-//                throw new AppExceptions("Saldo no disponible", HttpStatus.NOT_FOUND);
-//            }
-//            var textoTransaccion = movimiento.getTransaccionEnum().name().equals(TransaccionEnum.CREDITO.name()) ? "Deposito de : " + movimiento.getValor().toString() : "Retiro de :" + movimiento.getValor().toString();
-//            movimiento.setSaldoInicial(movimiento.getCuenta().getSaldoInicial());
-//            movimiento.setMovimiento(textoTransaccion);
-//            movimiento.setSaldo();
-//            movimientoRepository.save(movimiento);
-//        } else {
-//            throw new AppExceptions("Cuenta no encontrada", HttpStatus.NOT_FOUND);
-//        }
-//    }
-//
-//    private (Boolean, Double) actualizarSaldoCuenta(MovimientoDTO movimientoDTO, Movimiento movimiento) {
-//        var saldo = movimiento.getCuenta().getSaldoInicial() - movimientoDTO.getValor();
-//        if (saldo < 0 ){
-//            return (false , saldo );
-//        }
-//        Cuenta cuenta = movimiento.getCuenta();
-//        cuenta.setSaldoInicial(saldo);
-//        cuentaRepository.save(cuenta);
-//        return (true,saldo);
-//    }
-
 
     public void saveMethod(MovimientoDTO movimientoDTO) {
         if (movimientoDTO != null) {
@@ -93,7 +59,7 @@ public class MovimientosService {
     }
 
 
-    public Collection<MovimientoDTO> findAll() {
+    public Collection<MovimientoDTO> listarMovimientos() {
         List<Movimiento> movimientoList = movimientoRepository.findAll();
         Set<MovimientoDTO> movimientoDTO = new HashSet<>();
         for (Movimiento movimiento : movimientoList) {
@@ -104,7 +70,7 @@ public class MovimientosService {
     }
 
 
-    public MovimientoDTO findMovimientoById(Long id) {
+    public MovimientoDTO buscarMovimientoPorId(Long id) {
         Movimiento movimiento = movimientoRepository.findById(id).get();
         MovimientoDTO movimientoDTO = null;
         if (movimiento.getId() != null) {
@@ -113,16 +79,16 @@ public class MovimientosService {
         return movimientoDTO;
     }
 
-    public void saveMovimiento(MovimientoDTO movimientoDTO) {
+    public void guardarMovimiento(MovimientoDTO movimientoDTO) {
         saveMethod(movimientoDTO);
     }
 
-    public void deleteMovimiento(Long id) {
+    public void borrarMovimiento(Long id) {
         Movimiento movimiento = movimientoRepository.findById(id).get();
         movimientoRepository.deleteById(id);
     }
 
-    public void updateMovimiento(MovimientoDTO movimientoDTO) {
+    public void actualizarMovimiento(MovimientoDTO movimientoDTO) {
         saveMethod(movimientoDTO);
     }
 

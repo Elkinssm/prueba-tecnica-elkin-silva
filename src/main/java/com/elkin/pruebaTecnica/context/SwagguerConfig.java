@@ -27,11 +27,11 @@ public class SwagguerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "Todo API",
-                "La API REST de ToDo App.",
+                "Prueba Tecnica",
+                "La API REST Prueba tecnica.",
                 "v1",
                 "Terms of service",
-                new Contact("Elkin Silva", "www.example.com", "myeaddress@company.com"),
+                new Contact("Elkin Silva", "www.example.com", "elkin.silva@neoris.com"),
                 "License of API", "API license URL", Collections.emptyList());
     }
 }

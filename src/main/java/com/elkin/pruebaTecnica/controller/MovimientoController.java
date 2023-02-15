@@ -1,8 +1,6 @@
 package com.elkin.pruebaTecnica.controller;
 
-import com.elkin.pruebaTecnica.persistence.entity.Movimiento;
 import com.elkin.pruebaTecnica.service.MovimientosService;
-import com.elkin.pruebaTecnica.service.dto.CrearCuentaDTO;
 import com.elkin.pruebaTecnica.service.dto.MovimientoDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +18,19 @@ public class MovimientoController {
     }
 
     @GetMapping()
-    public ResponseEntity<Collection<MovimientoDTO>> getAllMovimientos() {
-        return new ResponseEntity<>(movimientosService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Collection<MovimientoDTO>> listarMovimientos() {
+        return new ResponseEntity<>(movimientosService.listarMovimientos(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCuentaById(@PathVariable Long id) {
-        MovimientoDTO movimientoDTO = movimientosService.findMovimientoById(id);
+    public ResponseEntity<?> movimientosPorId(@PathVariable Long id) {
+        MovimientoDTO movimientoDTO = movimientosService.buscarMovimientoPorId(id);
         return new ResponseEntity<>(movimientoDTO, HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<?> saveMovimiento(@RequestBody MovimientoDTO movimientoDTO) {
-        movimientosService.saveMovimiento(movimientoDTO);
-        return new ResponseEntity<>("Address created successfully!!", HttpStatus.CREATED);
+    public ResponseEntity<?> guardarMovimiento(@RequestBody MovimientoDTO movimientoDTO) {
+        movimientosService.guardarMovimiento(movimientoDTO);
+        return new ResponseEntity<>("Movimiento creado correctamente", HttpStatus.CREATED);
     }
 }

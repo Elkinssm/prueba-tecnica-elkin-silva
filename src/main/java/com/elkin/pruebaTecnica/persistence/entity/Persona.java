@@ -6,9 +6,8 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Data
-@Entity
-@Table(name = "persona")
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "edad", "identificacion", "direccion", "genero"})
+@MappedSuperclass
 public class Persona {
 
     @Id

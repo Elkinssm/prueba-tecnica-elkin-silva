@@ -23,6 +23,7 @@ public class Cuenta {
     private TipoCuentaEnum tipoCuenta;
     private Double saldoInicial;
     private Boolean estado;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

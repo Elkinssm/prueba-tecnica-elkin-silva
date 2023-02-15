@@ -65,20 +65,20 @@ public class CuentaController {
     }
 
     @GetMapping()
-    public ResponseEntity<Collection<CrearCuentaDTO>> getAllCuentas() {
-        return new ResponseEntity<>(cuentaService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Collection<CrearCuentaDTO>> listarCuentas() {
+        return new ResponseEntity<>(cuentaService.listarCuentas(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCuentaById(@PathVariable Long id) {
-        CrearCuentaDTO crearCuentaDTO = cuentaService.findCuentaById(id);
+    public ResponseEntity<?> cuentaPorId(@PathVariable Long id) {
+        CrearCuentaDTO crearCuentaDTO = cuentaService.buscarCuentaPorId(id);
         return new ResponseEntity<>(crearCuentaDTO, HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<?> saveCuenta(@RequestBody CrearCuentaDTO crearCuentaDTO) {
-        cuentaService.saveCuenta(crearCuentaDTO);
-        return new ResponseEntity<>("Address created successfully!!", HttpStatus.CREATED);
+    public ResponseEntity<?> guardarCuenta(@RequestBody CrearCuentaDTO crearCuentaDTO) {
+        cuentaService.guardarCuenta(crearCuentaDTO);
+        return new ResponseEntity<>("Cuenta creada correctamente", HttpStatus.CREATED);
     }
 
 }

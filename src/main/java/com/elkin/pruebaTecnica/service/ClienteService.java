@@ -1,13 +1,8 @@
 package com.elkin.pruebaTecnica.service;
 
 import com.elkin.pruebaTecnica.exceptions.AppExceptions;
-import com.elkin.pruebaTecnica.mapper.UsuarioMapper;
 import com.elkin.pruebaTecnica.persistence.entity.Cliente;
-import com.elkin.pruebaTecnica.persistence.entity.Cuenta;
 import com.elkin.pruebaTecnica.persistence.repository.ClienteRepository;
-import com.elkin.pruebaTecnica.persistence.repository.CuentaRepository;
-import com.elkin.pruebaTecnica.persistence.repository.PersonaRepository;
-import com.elkin.pruebaTecnica.service.dto.CrearCuentaDTO;
 import com.elkin.pruebaTecnica.service.dto.UsuarioDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
@@ -17,7 +12,7 @@ import java.util.*;
 
 //Logica de negocio
 @Service
-public class UsuarioService {
+public class ClienteService {
 
     //    private final ClienteRepository clienteRepository;
 //    private final UsuarioMapper usuarioMapper;
@@ -50,7 +45,7 @@ public class UsuarioService {
     private ClienteRepository clienteRepository;
     ObjectMapper mapper;
 
-    public UsuarioService(ClienteRepository clienteRepository, ObjectMapper mapper) {
+    public ClienteService(ClienteRepository clienteRepository, ObjectMapper mapper) {
         this.clienteRepository = clienteRepository;
         this.mapper = mapper;
     }
@@ -64,7 +59,7 @@ public class UsuarioService {
         }
     }
 
-    public Collection<UsuarioDTO> findAll() {
+    public Collection<UsuarioDTO> listarClientes() {
         List<Cliente> clienteList = clienteRepository.findAll();
         if (clienteList.isEmpty()) {
             throw new AppExceptions("No se encontraron resultados", HttpStatus.NOT_FOUND);
@@ -78,7 +73,7 @@ public class UsuarioService {
     }
 
 
-    public UsuarioDTO findClienteById(Long id) {
+    public UsuarioDTO buscarClientePorId(Long id) {
         Cliente cliente = clienteRepository.findById(id).get();
         UsuarioDTO usuarioDTO = null;
         if (cliente.getId() != null) {
@@ -87,16 +82,16 @@ public class UsuarioService {
         return usuarioDTO;
     }
 
-    public void saveCliente(UsuarioDTO usuarioDTO) {
+    public void guardarCliente(UsuarioDTO usuarioDTO) {
         saveMethod(usuarioDTO);
     }
 
-    public void deleteUsuario(Long id) {
+    public void borrarCliente(Long id) {
         Cliente cliente = clienteRepository.findById(id).get();
         clienteRepository.deleteById(id);
     }
 
-    public void updateUsuario(UsuarioDTO usuarioDTO) {
+    public void actualizarCliente(UsuarioDTO usuarioDTO) {
         saveMethod(usuarioDTO);
     }
 }
