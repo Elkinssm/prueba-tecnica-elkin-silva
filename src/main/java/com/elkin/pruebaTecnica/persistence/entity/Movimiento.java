@@ -22,6 +22,9 @@ public class Movimiento {
     private Double valor;
     private Double saldoAnterior;
     private Double saldoActual;
+    private Double saldoInicial;
+    private String movimiento;
+    private Double saldo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cuenta_id")
