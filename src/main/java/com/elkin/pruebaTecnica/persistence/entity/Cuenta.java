@@ -23,7 +23,7 @@ public class Cuenta {
     private String numeroCuenta;
     private TipoCuentaEnum tipoCuenta;
     private Double saldoInicial = 0.0;
-    private Double saldoActual;
+    private Double saldo;
     private Boolean estado;
 
     @ManyToOne(fetch = FetchType.LAZY)

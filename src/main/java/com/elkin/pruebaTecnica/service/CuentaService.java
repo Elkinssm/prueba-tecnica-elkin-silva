@@ -51,9 +51,6 @@ public class CuentaService {
             CrearCuentaDTO dto = mapper.convertValue(cuenta, CrearCuentaDTO.class);
             dto.setClienteId(cuenta.getCliente().getId());
             Optional<Cliente> cliente = clienteRepository.findById(cuenta.getCliente().getId());
-            if (cliente.isPresent()){
-
-            }
             crearCuentaDTO.add(dto);
 
         }
@@ -80,13 +77,16 @@ public class CuentaService {
 
 
     public CrearCuentaDTO buscarCuentaPorId(Long id) {
-        Cuenta cuenta = cuentaRepository.findById(id).get();
-        CrearCuentaDTO crearCuentaDTO = null;
-        if (cuenta.getId() != null) {
-            crearCuentaDTO = mapper.convertValue(cuenta, CrearCuentaDTO.class);
+        Cuenta cuenta = cuentaRepository.findById(id).orElse(null);
+        if (cuenta == null) {
+            throw new AppExceptions("No se encontró la cuenta con el id proporcionado", HttpStatus.NOT_FOUND);
         }
-        return crearCuentaDTO;
+        CrearCuentaDTO dto = mapper.convertValue(cuenta, CrearCuentaDTO.class);
+        dto.setClienteId(cuenta.getCliente().getId());
+        return dto;
     }
+
+
 
     public void guardarCuenta(CrearCuentaDTO crearCuentaDTO) {
         saveMethod(crearCuentaDTO);
