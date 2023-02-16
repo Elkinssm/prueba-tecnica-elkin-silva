@@ -1,6 +1,7 @@
 package com.elkin.pruebaTecnica.controller;
 
 import com.elkin.pruebaTecnica.service.CuentaService;
+import com.elkin.pruebaTecnica.service.dto.CuentaClienteIdNombre;
 import com.elkin.pruebaTecnica.service.dto.CrearCuentaDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,60 +14,20 @@ import java.util.Collection;
 public class CuentaController {
 
 
-//    private final CuentaService cuentaService;
-//
-//    public CuentaController(CuentaService cuentaService) {
-//        this.cuentaService = cuentaService;
-//    }
-//
-////    @PostMapping
-////    public Cuenta crearCuenta(@RequestBody Cuenta cuenta) {
-////        return this.cuentaService.crearCuenta(cuenta);
-////    }
-//
-//    //    @PostMapping("/clientes/{clienteId}/cuentas")
-////    public ResponseEntity<Cuenta> crearCuenta(@PathVariable Long clienteId, @RequestBody Cuenta cuenta) {
-////        Cuenta nuevaCuenta = cuentaService.crearCuenta(clienteId, cuenta);
-////        return new ResponseEntity<>(nuevaCuenta, HttpStatus.CREATED);
-////    }
-//    @PostMapping
-//    public ResponseEntity<Cuenta> crearCuenta(@RequestBody CrearCuentaDTO crearCuentaDTO) {
-//        Cuenta nuevaCuenta = cuentaService.crearCuenta(crearCuentaDTO);
-//        return new ResponseEntity<>(nuevaCuenta, HttpStatus.CREATED);
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<Collection<CrearCuentaDTO>> findAll() {
-//        return new ResponseEntity<>(this.cuentaService.findAll(), HttpStatus.OK);
-//    }
-//
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-//        this.cuentaService.deleteById(id);
-//        return ResponseEntity.noContent().build();
-//    }
-//
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity<Void> actualizarCuenta(@PathVariable("id") Long id, @RequestBody Cuenta cuenta) {
-//        cuentaService.actualizarCuenta(id, cuenta);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @PatchMapping("/update/{id}")
-//    public ResponseEntity<Void> actualizarCuentaParcial(@PathVariable("id") Long id, @RequestBody Cuenta cuentaActualizada) {
-//        cuentaService.actualizarCuentaParcial(id, cuentaActualizada);
-//        return ResponseEntity.noContent().build();
-//    }
-
     private final CuentaService cuentaService;
 
     public CuentaController(CuentaService cuentaService) {
         this.cuentaService = cuentaService;
     }
 
-    @GetMapping()
+    @GetMapping("/todas")
     public ResponseEntity<Collection<CrearCuentaDTO>> listarCuentas() {
         return new ResponseEntity<>(cuentaService.listarCuentas(), HttpStatus.OK);
+    }
+
+    @GetMapping()
+    public ResponseEntity<Collection<CuentaClienteIdNombre>> listarCuentasNombreId() {
+        return new ResponseEntity<>(cuentaService.listarCuentasConClientes(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

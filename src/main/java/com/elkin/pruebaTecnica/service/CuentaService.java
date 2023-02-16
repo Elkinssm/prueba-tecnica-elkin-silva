@@ -5,6 +5,7 @@ import com.elkin.pruebaTecnica.persistence.entity.Cliente;
 import com.elkin.pruebaTecnica.persistence.entity.Cuenta;
 import com.elkin.pruebaTecnica.persistence.repository.ClienteRepository;
 import com.elkin.pruebaTecnica.persistence.repository.CuentaRepository;
+import com.elkin.pruebaTecnica.service.dto.CuentaClienteIdNombre;
 import com.elkin.pruebaTecnica.service.dto.CrearCuentaDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
@@ -49,8 +50,30 @@ public class CuentaService {
         for (Cuenta cuenta : cuentaList) {
             CrearCuentaDTO dto = mapper.convertValue(cuenta, CrearCuentaDTO.class);
             dto.setClienteId(cuenta.getCliente().getId());
+            Optional<Cliente> cliente = clienteRepository.findById(cuenta.getCliente().getId());
+            if (cliente.isPresent()){
+
+            }
             crearCuentaDTO.add(dto);
 
+        }
+        return crearCuentaDTO;
+    }
+
+    public Collection<CuentaClienteIdNombre> listarCuentasConClientes() {
+        List<Cuenta> cuentaList = cuentaRepository.findAll();
+        if (cuentaList.isEmpty()) {
+            throw new AppExceptions("No se encontraron resultados", HttpStatus.NOT_FOUND);
+        }
+        Set<CuentaClienteIdNombre> crearCuentaDTO = new HashSet<>();
+        for (Cuenta cuenta : cuentaList) {
+            CuentaClienteIdNombre dto = mapper.convertValue(cuenta, CuentaClienteIdNombre.class);
+            dto.setClienteId(cuenta.getCliente().getId());
+            Optional<Cliente> cliente = clienteRepository.findById(cuenta.getCliente().getId());
+            if (cliente.isPresent()) {
+                dto.setNombreCliente(cliente.get().getNombre());
+            }
+            crearCuentaDTO.add(dto);
         }
         return crearCuentaDTO;
     }
