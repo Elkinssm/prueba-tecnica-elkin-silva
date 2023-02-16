@@ -18,8 +18,7 @@ public class CuentaService {
     ObjectMapper mapper;
     private final ClienteRepository clienteRepository;
 
-    public CuentaService(CuentaRepository cuentaRepository, ObjectMapper mapper,
-                         ClienteRepository clienteRepository) {
+    public CuentaService(CuentaRepository cuentaRepository, ObjectMapper mapper, ClienteRepository clienteRepository) {
         this.cuentaRepository = cuentaRepository;
         this.mapper = mapper;
         this.clienteRepository = clienteRepository;
@@ -31,8 +30,9 @@ public class CuentaService {
             Optional<Cliente> cliente = clienteRepository.findById(clienteId);
             if (cliente.isEmpty()) {
                 throw new AppExceptions("ID de cliente inválido", HttpStatus.BAD_REQUEST);
-           }
+            }
             Cuenta cuenta = mapper.convertValue(crearCuentaDTO, Cuenta.class);
+            cuenta.setCliente(cliente.get());
             cuentaRepository.save(cuenta);
         } else {
             throw new AppExceptions("Cuenta no encontrada", HttpStatus.NOT_FOUND);
@@ -47,7 +47,9 @@ public class CuentaService {
         }
         Set<CrearCuentaDTO> crearCuentaDTO = new HashSet<>();
         for (Cuenta cuenta : cuentaList) {
-            crearCuentaDTO.add(mapper.convertValue(cuenta, CrearCuentaDTO.class));
+            CrearCuentaDTO dto = mapper.convertValue(cuenta, CrearCuentaDTO.class);
+            dto.setClienteId(cuenta.getCliente().getId());
+            crearCuentaDTO.add(dto);
 
         }
         return crearCuentaDTO;
