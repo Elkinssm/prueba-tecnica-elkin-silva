@@ -8,16 +8,11 @@ import lombok.Data;
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer", "clienteId"})
 public class CuentaClienteIdNombre {
     private Long id;
-
     private String numeroCuenta;
-
     private TipoCuentaEnum tipoCuenta;
-
     private Double saldoInicial;
-
     private Boolean estado;
     private Long clienteId;
-
     private String nombreCliente;
 
 }
