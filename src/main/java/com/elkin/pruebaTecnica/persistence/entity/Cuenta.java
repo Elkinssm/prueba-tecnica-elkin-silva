@@ -22,7 +22,8 @@ public class Cuenta {
     private Long id;
     private String numeroCuenta;
     private TipoCuentaEnum tipoCuenta;
-    private Double saldoInicial;
+    private Double saldoInicial = 0.0;
+    private Double saldoActual;
     private Boolean estado;
 
     @ManyToOne(fetch = FetchType.LAZY)

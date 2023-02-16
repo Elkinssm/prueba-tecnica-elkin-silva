@@ -1,4 +1,4 @@
-package com.elkin.pruebaTecnica.service.dto;
+package com.elkin.pruebaTecnica.service;
 
 import com.elkin.pruebaTecnica.exceptions.AppExceptions;
 import com.elkin.pruebaTecnica.persistence.entity.Cuenta;
@@ -27,14 +27,14 @@ public class MovimientoService {
     }
 
     @Transactional
-    public void crearMovimiento(Long idCuenta, TipoMovimientoEnum tipoMovimiento, Double valor) throws CuentaNoEncontradaException, SaldoInsuficienteException {
+    public void crearMovimiento(Long idCuenta, TipoMovimientoEnum tipoMovimiento, Double valor) {
         Optional<Cuenta> optionalCuenta = cuentaRepository.findById(idCuenta);
         if (optionalCuenta.isPresent()) {
             Cuenta cuenta = optionalCuenta.get();
             Double saldoAnterior = cuenta.getSaldoActual();
             Double saldoActual;
 
-            if (tipoMovimiento.equals(TipoMovimientoEnum.INGRESO)) {
+            if (tipoMovimiento.equals(TipoMovimientoEnum.DEBITO)) {
                 saldoActual = saldoAnterior + valor;
             } else {
                 saldoActual = saldoAnterior - valor;

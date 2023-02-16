@@ -1,36 +1,31 @@
 package com.elkin.pruebaTecnica.controller;
 
-import com.elkin.pruebaTecnica.service.MovimientosServiceOld;
-import com.elkin.pruebaTecnica.service.dto.MovimientoDTO;
+import com.elkin.pruebaTecnica.persistence.entity.TipoMovimientoEnum;
+import com.elkin.pruebaTecnica.service.MovimientoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/movimientos")
 public class MovimientoController {
-    private final MovimientosServiceOld movimientosServiceOld;
+    private final MovimientoService movimientoService;
 
-    public MovimientoController(MovimientosServiceOld movimientosServiceOld) {
-        this.movimientosServiceOld = movimientosServiceOld;
+    public MovimientoController(MovimientoService movimientosService) {
+        this.movimientoService = movimientosService;
+
     }
 
-    @GetMapping()
-    public ResponseEntity<Collection<MovimientoDTO>> listarMovimientos() {
-        return new ResponseEntity<>(movimientosServiceOld.listarMovimientos(), HttpStatus.OK);
-    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> movimientosPorId(@PathVariable Long id) {
-        MovimientoDTO movimientoDTO = movimientosServiceOld.buscarMovimientoPorId(id);
-        return new ResponseEntity<>(movimientoDTO, HttpStatus.OK);
-    }
-
-    @PostMapping()
-    public ResponseEntity<?> guardarMovimiento(@RequestBody MovimientoDTO movimientoDTO) {
-        movimientosServiceOld.guardarMovimiento(movimientoDTO);
-        return new ResponseEntity<>("Movimiento creado correctamente", HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<String> crearMovimiento(
+            @RequestParam Long idCuenta,
+            @RequestParam TipoMovimientoEnum tipoMovimiento,
+            @RequestParam Double valor) {
+        movimientoService.crearMovimiento(idCuenta, tipoMovimiento, valor);
+        return new ResponseEntity<>("Movimiento creado exitosamente", HttpStatus.OK);
     }
 }
