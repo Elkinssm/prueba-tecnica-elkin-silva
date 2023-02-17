@@ -22,9 +22,7 @@ public class Cuenta {
     private Long id;
     private String numeroCuenta;
     private TipoCuentaEnum tipoCuenta;
-    @JsonIgnore
-    private Double saldoInicial = 0.0;
-    private Double saldo;
+    private Double saldoInicial;
     private Boolean estado;
 
     @ManyToOne(fetch = FetchType.LAZY)
