@@ -1,11 +1,13 @@
 package com.elkin.pruebaTecnica.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +19,9 @@ public class Movimiento {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private LocalDateTime fecha;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private String fecha;
     private TipoMovimientoEnum tipoMovimiento;
     private Double valor;
     private Double saldoAnterior;

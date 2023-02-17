@@ -22,6 +22,7 @@ public class Cuenta {
     private Long id;
     private String numeroCuenta;
     private TipoCuentaEnum tipoCuenta;
+    @JsonIgnore
     private Double saldoInicial = 0.0;
     private Double saldo;
     private Boolean estado;
@@ -30,6 +31,7 @@ public class Cuenta {
     @JoinColumn(name = "cliente_id")
     @JsonIgnore
     private Cliente cliente;
+    @JsonIgnore
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)
     private List<Movimiento> movimientos = new ArrayList<>();
 
