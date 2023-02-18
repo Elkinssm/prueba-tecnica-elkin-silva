@@ -3,10 +3,12 @@ package com.elkin.pruebaTecnica.service;
 import com.elkin.pruebaTecnica.exceptions.AppExceptions;
 import com.elkin.pruebaTecnica.persistence.entity.Cuenta;
 import com.elkin.pruebaTecnica.persistence.entity.Movimiento;
+import com.elkin.pruebaTecnica.persistence.entity.TipoCuentaEnum;
 import com.elkin.pruebaTecnica.persistence.entity.TipoMovimientoEnum;
 import com.elkin.pruebaTecnica.persistence.repository.ClienteRepository;
 import com.elkin.pruebaTecnica.persistence.repository.CuentaRepository;
 import com.elkin.pruebaTecnica.persistence.repository.MovimientoRepository;
+import com.elkin.pruebaTecnica.service.dto.MovimientoClienteDTO;
 import com.elkin.pruebaTecnica.service.dto.MovimientoDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
@@ -23,20 +25,19 @@ public class MovimientosService {
     private final MovimientoRepository movimientoRepository;
     ObjectMapper mapper;
     private final CuentaRepository cuentaRepository;
-    private final ClienteRepository clienteRepository;
+
 
     public MovimientosService(MovimientoRepository movimientoRepository, ObjectMapper mapper, CuentaRepository cuentaRepository, ClienteRepository clienteRepository) {
         this.movimientoRepository = movimientoRepository;
         this.mapper = mapper;
         this.cuentaRepository = cuentaRepository;
-        this.clienteRepository = clienteRepository;
+
     }
 
 
     public List<Movimiento> listarMovimientos() {
         return movimientoRepository.findAll();
     }
-
 
 
     public void saveMethod(MovimientoDTO movimientoDTO) {
@@ -54,9 +55,7 @@ public class MovimientosService {
             cuentaRepository.save(cuenta);
             movimiento.setSaldoAnterior(saldoAnterior);
             movimiento.setSaldoActual(saldoActual);
-            String movimientoStr = movimientoDTO.getMovimiento().equals("CREDITO")
-                    ? "Depósito de " + movimiento.getValor() :
-                    "Retiro de " + movimiento.getValor();
+            String movimientoStr = movimientoDTO.getMovimiento().equals("CREDITO") ? "Depósito de " + movimiento.getValor() : "Retiro de " + movimiento.getValor();
             movimiento.setMovimiento(movimientoStr);
             movimiento.setTipoMovimiento(TipoMovimientoEnum.valueOf(movimientoDTO.getMovimiento()));
             movimientoRepository.save(movimiento);
@@ -72,7 +71,7 @@ public class MovimientosService {
             Map<String, Object> movimientoConDatos = new HashMap<>();
             movimientoConDatos.put("numeroCuenta", movimiento.getCuenta().getNumeroCuenta());
             movimientoConDatos.put("tipoCuenta", movimiento.getCuenta().getTipoCuenta().toString());
-            movimientoConDatos.put("saldoInicial", movimiento.getSaldoInicial());
+            movimientoConDatos.put("saldoInicial", movimiento.getCuenta().getSaldoInicial());
             movimientoConDatos.put("estado", movimiento.getCuenta().getEstado());
             movimientoConDatos.put("movimiento", movimiento.getMovimiento());
             movimientosConDatos.add(movimientoConDatos);
@@ -102,5 +101,25 @@ public class MovimientosService {
         saveMethod(movimientoDTO);
     }
 
+    public List<MovimientoClienteDTO> getMovimientosByClienteAndFecha(Long clienteId, String fecha) {
+        List<Object[]> result = movimientoRepository.findMovimientosByClienteAndFecha(clienteId, fecha);
+        if (result == null || result.isEmpty()) {
+            throw new AppExceptions("No se encontraron movimientos para el cliente " + clienteId + " y fecha " + fecha, HttpStatus.BAD_REQUEST);
+        }
+        List<MovimientoClienteDTO> dtos = new ArrayList<>();
+        for (Object[] obj : result) {
+            MovimientoClienteDTO dto = new MovimientoClienteDTO();
+            dto.setFecha((String) obj[0]);
+            dto.setNumeroCuenta((String) obj[1]);
+            dto.setCliente((String) obj[2]);
+            dto.setTipoCuenta((TipoCuentaEnum) obj[3]);
+            dto.setEstadoCuenta((Boolean) obj[4]);
+            dto.setMovimiento((String) obj[5]);
+            dto.setSaldoDisponible((Double) obj[6]);
+            dto.setSaldoInicial((Double) obj[7]);
+            dtos.add(dto);
+        }
+        return dtos;
+    }
 
 }

@@ -2,6 +2,7 @@ package com.elkin.pruebaTecnica.controller;
 
 import com.elkin.pruebaTecnica.persistence.entity.Movimiento;
 import com.elkin.pruebaTecnica.service.MovimientosService;
+import com.elkin.pruebaTecnica.service.dto.MovimientoClienteDTO;
 import com.elkin.pruebaTecnica.service.dto.MovimientoDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,16 @@ public class MovimientoController {
     }
 
 
-
-
+    @GetMapping("/por-fecha-y-usuario")
+    public ResponseEntity<List<MovimientoClienteDTO>> getMovimientosByClienteAndFecha(
+            @RequestParam("clienteId") Long clienteId,
+            @RequestParam("fecha") String fecha) {
+        List<MovimientoClienteDTO> movimientos = movimientosService.getMovimientosByClienteAndFecha(clienteId, fecha);
+        return ResponseEntity.ok(movimientos);
+    }
 }
+
+
+
+
+
