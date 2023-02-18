@@ -8,7 +8,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 //Logica de negocio
 @Service
@@ -45,13 +48,16 @@ public class ClienteService {
 
 
     public UsuarioDTO buscarClientePorId(Long id) {
-        Cliente cliente = clienteRepository.findById(id).get();
-        UsuarioDTO usuarioDTO = null;
-        if (cliente.getId() != null) {
-            usuarioDTO = mapper.convertValue(cliente, UsuarioDTO.class);
+        Cliente cliente = clienteRepository.findById(id).orElse(null);
+        if (cliente == null) {
+            throw new AppExceptions("No se encontró el cliente con el id proporcionado", HttpStatus.NOT_FOUND);
         }
-        return usuarioDTO;
+        UsuarioDTO dto = mapper.convertValue(cliente, UsuarioDTO.class);
+        dto.setId(cliente.getId());
+        return dto;
+
     }
+
 
     public void guardarCliente(UsuarioDTO usuarioDTO) {
         saveMethod(usuarioDTO);

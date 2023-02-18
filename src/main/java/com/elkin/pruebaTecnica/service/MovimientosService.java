@@ -79,13 +79,15 @@ public class MovimientosService {
         return movimientosConDatos;
     }
 
-    public MovimientoDTO findMovimientoById(Long id) {
-        Movimiento movimiento = movimientoRepository.findById(id).get();
-        MovimientoDTO movimientoDTO = null;
-        if (movimiento.getId() != null) {
-            movimientoDTO = mapper.convertValue(movimiento, MovimientoDTO.class);
+    public MovimientoDTO buscarMovimientoPorId(Long id) {
+        Movimiento movimiento = movimientoRepository.findById(id).orElse(null);
+        if (movimiento == null) {
+            throw new AppExceptions("No se encontró el movimiento con el id proporcionado", HttpStatus.NOT_FOUND);
         }
-        return movimientoDTO;
+        MovimientoDTO dto = mapper.convertValue(movimiento, MovimientoDTO.class);
+        dto.setCuentaId(movimiento.getId());
+        return dto;
+
     }
 
     public void saveMovimiento(MovimientoDTO movimientoDTO) {

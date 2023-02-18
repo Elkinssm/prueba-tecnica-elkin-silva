@@ -23,13 +23,13 @@ public class MovimientoController {
 
 
     @PostMapping
-    public ResponseEntity<Void> createMovimiento(@RequestBody MovimientoDTO movimientoDTO) {
+    public ResponseEntity<Void> crearMovimiento(@RequestBody MovimientoDTO movimientoDTO) {
         movimientosService.saveMovimiento(movimientoDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping()
-    public ResponseEntity<Object> getMovimientosConDatos() {
+    public ResponseEntity<Object> listarMovimientosConDatos() {
         List<Map<String, Object>> movimientosConDatos = movimientosService.getMovimientosConDatosDeCuenta();
         return ResponseEntity.ok(movimientosConDatos);
     }
@@ -42,12 +42,18 @@ public class MovimientoController {
     }
 
 
-    @GetMapping("/por-fecha-y-usuario")
-    public ResponseEntity<List<MovimientoClienteDTO>> getMovimientosByClienteAndFecha(
+    @GetMapping("/fecha-y-usuario")
+    public ResponseEntity<List<MovimientoClienteDTO>> listarMovimientosPorClienteYFecha(
             @RequestParam("clienteId") Long clienteId,
             @RequestParam("fecha") String fecha) {
         List<MovimientoClienteDTO> movimientos = movimientosService.getMovimientosByClienteAndFecha(clienteId, fecha);
         return ResponseEntity.ok(movimientos);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> movimientoPorId(@PathVariable Long id) {
+        MovimientoDTO movimientoDTO = movimientosService.buscarMovimientoPorId(id);
+        return new ResponseEntity<>(movimientoDTO, HttpStatus.OK);
     }
 }
 
