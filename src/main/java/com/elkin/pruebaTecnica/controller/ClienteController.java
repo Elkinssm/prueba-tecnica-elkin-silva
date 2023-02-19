@@ -1,5 +1,6 @@
 package com.elkin.pruebaTecnica.controller;
 
+import com.elkin.pruebaTecnica.exceptions.AppExceptions;
 import com.elkin.pruebaTecnica.service.ClienteService;
 import com.elkin.pruebaTecnica.service.dto.UsuarioDTO;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> clientePorId(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> clientePorId(@PathVariable Long id) {
         UsuarioDTO usuarioDTO = clienteService.buscarClientePorId(id);
         return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
     }
@@ -32,7 +33,19 @@ public class ClienteController {
     @PostMapping()
     public ResponseEntity<?> guardarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         clienteService.guardarCliente(usuarioDTO);
-        return new ResponseEntity<>("Cliente creado correctamente", HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
+        clienteService.actualizarCliente(id, usuarioDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> borraUsuario(@PathVariable Long id) {
+        clienteService.borrarCliente(id);
+        return ResponseEntity.ok().build();
     }
 
 

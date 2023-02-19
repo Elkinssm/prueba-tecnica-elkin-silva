@@ -5,8 +5,8 @@ import com.elkin.pruebaTecnica.persistence.entity.Cliente;
 import com.elkin.pruebaTecnica.persistence.entity.Cuenta;
 import com.elkin.pruebaTecnica.persistence.repository.ClienteRepository;
 import com.elkin.pruebaTecnica.persistence.repository.CuentaRepository;
-import com.elkin.pruebaTecnica.service.dto.CuentaClienteIdNombre;
 import com.elkin.pruebaTecnica.service.dto.CrearCuentaDTO;
+import com.elkin.pruebaTecnica.service.dto.CuentaClienteIdNombre;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class CuentaService {
     public Collection<CrearCuentaDTO> listarCuentas() {
         List<Cuenta> cuentaList = cuentaRepository.findAll();
         if (cuentaList.isEmpty()) {
-            throw new AppExceptions("No se encontraron resultados", HttpStatus.NOT_FOUND);
+            throw new AppExceptions("No se encontraron cuentas registradas", HttpStatus.NOT_FOUND);
         }
         Set<CrearCuentaDTO> crearCuentaDTO = new HashSet<>();
         for (Cuenta cuenta : cuentaList) {
@@ -60,7 +60,7 @@ public class CuentaService {
     public Collection<CuentaClienteIdNombre> listarCuentasConClientes() {
         List<Cuenta> cuentaList = cuentaRepository.findAll();
         if (cuentaList.isEmpty()) {
-            throw new AppExceptions("No se encontraron resultados", HttpStatus.NOT_FOUND);
+            throw new AppExceptions("No se encontraron cuentas registradas", HttpStatus.NOT_FOUND);
         }
         Set<CuentaClienteIdNombre> crearCuentaDTO = new HashSet<>();
         for (Cuenta cuenta : cuentaList) {
@@ -86,19 +86,34 @@ public class CuentaService {
         return dto;
     }
 
-
-
     public void guardarCuenta(CrearCuentaDTO crearCuentaDTO) {
         saveMethod(crearCuentaDTO);
     }
 
     public void borrarCuenta(Long id) {
-        Cuenta cuenta = cuentaRepository.findById(id).get();
-        cuentaRepository.deleteById(id);
+        Optional<Cuenta> cuentaOptional = cuentaRepository.findById(id);
+        if (cuentaOptional.isPresent()) {
+            Cuenta cuenta = cuentaOptional.get();
+            cuentaRepository.delete(cuenta);
+        } else {
+            throw new AppExceptions("El cliente con ID " + id + " no existe", HttpStatus.NOT_FOUND);
+        }
     }
 
-    public void actualizarCuenta(CrearCuentaDTO crearCuentaDTO) {
-        saveMethod(crearCuentaDTO);
+    public void actualizarCuenta(Long id, CrearCuentaDTO crearCuentaDTO) {
+        Optional<Cuenta> cuentaOptional = cuentaRepository.findById(id);
+        if (cuentaOptional.isPresent()) {
+            Cuenta cuenta = cuentaOptional.get();
+            cuenta.setNumeroCuenta(crearCuentaDTO.getNumeroCuenta());
+            cuenta.setTipoCuenta(crearCuentaDTO.getTipoCuenta());
+            cuenta.setEstado(crearCuentaDTO.getEstado());
+            cuenta.setSaldoInicial(crearCuentaDTO.getSaldoInicial());
+
+            saveMethod(crearCuentaDTO);
+        } else {
+            throw new AppExceptions("El cliente con ID " + id + " no existe", HttpStatus.NOT_FOUND);
+        }
     }
+
 }
 

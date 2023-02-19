@@ -8,12 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-//Logica de negocio
 @Service
 public class ClienteService {
     private ClienteRepository clienteRepository;
@@ -29,14 +25,14 @@ public class ClienteService {
             Cliente cliente = mapper.convertValue(usuarioDTO, Cliente.class);
             clienteRepository.save(cliente);
         } else {
-            throw new AppExceptions("Usuario no encontrado", HttpStatus.NOT_FOUND);
+            throw new AppExceptions("El usuario a guardar no puede ser nulo.", HttpStatus.NOT_FOUND);
         }
     }
 
     public Collection<UsuarioDTO> listarClientes() {
         List<Cliente> clienteList = clienteRepository.findAll();
         if (clienteList.isEmpty()) {
-            throw new AppExceptions("No se encontraron resultados", HttpStatus.NOT_FOUND);
+            throw new AppExceptions("No se encontraron clientes registrados.", HttpStatus.NOT_FOUND);
         }
         Set<UsuarioDTO> usuarioDTO = new HashSet<>();
         for (Cliente cliente : clienteList) {
@@ -64,11 +60,28 @@ public class ClienteService {
     }
 
     public void borrarCliente(Long id) {
-        Cliente cliente = clienteRepository.findById(id).get();
-        clienteRepository.deleteById(id);
+        Optional<Cliente> clienteOptional = clienteRepository.findById(id);
+        if (clienteOptional.isPresent()) {
+            Cliente cliente = clienteOptional.get();
+            clienteRepository.delete(cliente);
+        } else {
+            throw new AppExceptions("El cliente con ID " + id + " no existe", HttpStatus.NOT_FOUND);
+        }
     }
 
-    public void actualizarCliente(UsuarioDTO usuarioDTO) {
-        saveMethod(usuarioDTO);
+    public void actualizarCliente(Long id, UsuarioDTO usuarioDTO) {
+        Optional<Cliente> clienteOptional = clienteRepository.findById(id);
+        if (clienteOptional.isPresent()) {
+            Cliente cliente = clienteOptional.get();
+            cliente.setNombre(usuarioDTO.getNombre());
+            cliente.setEstado(usuarioDTO.getEstado());
+            cliente.setDireccion(usuarioDTO.getDireccion());
+            cliente.setContrasenia(usuarioDTO.getContrasenia());
+            cliente.setTelefono(usuarioDTO.getTelefono());
+            saveMethod(usuarioDTO);
+        } else {
+            throw new AppExceptions("El cliente con ID " + id + " no existe", HttpStatus.NOT_FOUND);
+        }
     }
+
 }

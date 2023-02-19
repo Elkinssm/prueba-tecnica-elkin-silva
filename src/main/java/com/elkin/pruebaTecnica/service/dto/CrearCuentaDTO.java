@@ -11,7 +11,6 @@ public class CrearCuentaDTO {
     private String numeroCuenta;
     private TipoCuentaEnum tipoCuenta;
     private Double saldoInicial;
-
     private Boolean estado;
 
 }

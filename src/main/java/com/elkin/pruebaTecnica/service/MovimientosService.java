@@ -14,10 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class MovimientosService {
@@ -94,15 +91,6 @@ public class MovimientosService {
         saveMethod(movimientoDTO);
     }
 
-    public void deleteMovimiento(Long id) {
-        Movimiento movimiento = movimientoRepository.findById(id).get();
-        movimientoRepository.deleteById(id);
-    }
-
-    public void updateMovimiento(MovimientoDTO movimientoDTO) {
-        saveMethod(movimientoDTO);
-    }
-
     public List<MovimientoClienteDTO> getMovimientosByClienteAndFecha(Long clienteId, String fecha) {
         List<Object[]> result = movimientoRepository.findMovimientosByClienteAndFecha(clienteId, fecha);
         if (result == null || result.isEmpty()) {
@@ -123,5 +111,30 @@ public class MovimientosService {
         }
         return dtos;
     }
+
+    public void borrarMovimiento(Long id) {
+        Optional<Movimiento> movimientoOptional = movimientoRepository.findById(id);
+        if (movimientoOptional.isPresent()) {
+            Movimiento movimiento = movimientoOptional.get();
+            movimientoRepository.delete(movimiento);
+        } else {
+            throw new AppExceptions("El movimiento con ID " + id + " no existe", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public void actualizarMovimiento(Long id, MovimientoDTO movimientoDTO) {
+        Optional<Movimiento> movimientoOptional = movimientoRepository.findById(id);
+        if (movimientoOptional.isPresent()) {
+            Movimiento movimiento = movimientoOptional.get();
+            movimiento.setFecha(movimientoDTO.getFecha());
+            movimiento.setMovimiento(movimientoDTO.getMovimiento());
+            movimiento.setValor(movimientoDTO.getValor());
+            movimiento.setSaldo(movimientoDTO.getSaldo());
+            saveMethod(movimientoDTO);
+        } else {
+            throw new AppExceptions("El cliente con ID " + id + " no existe", HttpStatus.NOT_FOUND);
+        }
+    }
+
 
 }

@@ -43,9 +43,7 @@ public class MovimientoController {
 
 
     @GetMapping("/fecha-y-usuario")
-    public ResponseEntity<List<MovimientoClienteDTO>> listarMovimientosPorClienteYFecha(
-            @RequestParam("clienteId") Long clienteId,
-            @RequestParam("fecha") String fecha) {
+    public ResponseEntity<List<MovimientoClienteDTO>> listarMovimientosPorClienteYFecha(@RequestParam("clienteId") Long clienteId, @RequestParam("fecha") String fecha) {
         List<MovimientoClienteDTO> movimientos = movimientosService.getMovimientosByClienteAndFecha(clienteId, fecha);
         return ResponseEntity.ok(movimientos);
     }
@@ -54,7 +52,22 @@ public class MovimientoController {
     public ResponseEntity<?> movimientoPorId(@PathVariable Long id) {
         MovimientoDTO movimientoDTO = movimientosService.buscarMovimientoPorId(id);
         return new ResponseEntity<>(movimientoDTO, HttpStatus.OK);
+
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> actualizarMovimiento(@PathVariable Long id, @RequestBody MovimientoDTO movimientoDTO) {
+        movimientosService.actualizarMovimiento(id, movimientoDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> borraMovimiento(@PathVariable Long id) {
+        movimientosService.borrarMovimiento(id);
+        return ResponseEntity.ok().build();
+    }
+
+
 }
 
 
