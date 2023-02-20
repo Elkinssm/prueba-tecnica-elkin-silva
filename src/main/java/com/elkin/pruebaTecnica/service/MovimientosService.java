@@ -82,12 +82,11 @@ public class MovimientosService {
             throw new AppExceptions("No se encontró el movimiento con el id proporcionado", HttpStatus.NOT_FOUND);
         }
         MovimientoDTO dto = mapper.convertValue(movimiento, MovimientoDTO.class);
-        dto.setCuentaId(movimiento.getId());
+        dto.setCuentaId(movimiento.getCuenta().getId());
         return dto;
-
     }
 
-    public void saveMovimiento(MovimientoDTO movimientoDTO) {
+    public void guardarMovimiento(MovimientoDTO movimientoDTO) {
         saveMethod(movimientoDTO);
     }
 
@@ -122,6 +121,7 @@ public class MovimientosService {
         }
     }
 
+
     public void actualizarMovimiento(Long id, MovimientoDTO movimientoDTO) {
         Optional<Movimiento> movimientoOptional = movimientoRepository.findById(id);
         if (movimientoOptional.isPresent()) {
@@ -130,11 +130,10 @@ public class MovimientosService {
             movimiento.setMovimiento(movimientoDTO.getMovimiento());
             movimiento.setValor(movimientoDTO.getValor());
             movimiento.setSaldo(movimientoDTO.getSaldo());
-            saveMethod(movimientoDTO);
+            movimientoRepository.save(movimiento);
         } else {
-            throw new AppExceptions("El cliente con ID " + id + " no existe", HttpStatus.NOT_FOUND);
+            throw new AppExceptions("La movimiento con ID " + id + " no existe", HttpStatus.NOT_FOUND);
         }
     }
-
 
 }

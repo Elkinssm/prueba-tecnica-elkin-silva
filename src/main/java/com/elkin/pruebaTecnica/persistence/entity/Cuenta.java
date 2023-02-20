@@ -18,7 +18,7 @@ import java.util.List;
 @JsonIgnoreProperties(value = {"hibernateLazyInitializer"})
 public class Cuenta {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String numeroCuenta;
     private TipoCuentaEnum tipoCuenta;
@@ -27,7 +27,7 @@ public class Cuenta {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
-    @JsonIgnore
+
     private Cliente cliente;
     @JsonIgnore
     @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL)

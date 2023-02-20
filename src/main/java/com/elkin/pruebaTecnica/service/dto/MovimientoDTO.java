@@ -5,13 +5,11 @@ import lombok.Data;
 
 @Data
 public class MovimientoDTO {
-    private Long cuentaId;
     private Long id;
-    private String movimiento;
+    private Long cuentaId;
     private Double valor;
     private Double saldo;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private String fecha;
-
-
+    private String movimiento;
 }

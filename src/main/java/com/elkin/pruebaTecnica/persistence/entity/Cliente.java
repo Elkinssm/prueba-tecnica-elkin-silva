@@ -19,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "cliente")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer"})
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","cuentas"})
 public class Cliente extends Persona {
 
      private String contrasenia;
@@ -27,7 +27,7 @@ public class Cliente extends Persona {
     private Boolean estado;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+
     private List<Cuenta> cuentas = new ArrayList<>();
 
 

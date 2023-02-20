@@ -24,7 +24,7 @@ public class MovimientoController {
 
     @PostMapping
     public ResponseEntity<Void> crearMovimiento(@RequestBody MovimientoDTO movimientoDTO) {
-        movimientosService.saveMovimiento(movimientoDTO);
+        movimientosService.guardarMovimiento(movimientoDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

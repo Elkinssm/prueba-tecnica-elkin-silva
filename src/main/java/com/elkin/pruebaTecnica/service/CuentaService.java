@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -100,6 +101,7 @@ public class CuentaService {
         }
     }
 
+
     public void actualizarCuenta(Long id, CrearCuentaDTO crearCuentaDTO) {
         Optional<Cuenta> cuentaOptional = cuentaRepository.findById(id);
         if (cuentaOptional.isPresent()) {
@@ -108,12 +110,16 @@ public class CuentaService {
             cuenta.setTipoCuenta(crearCuentaDTO.getTipoCuenta());
             cuenta.setEstado(crearCuentaDTO.getEstado());
             cuenta.setSaldoInicial(crearCuentaDTO.getSaldoInicial());
-
-            saveMethod(crearCuentaDTO);
-        } else {
-            throw new AppExceptions("El cliente con ID " + id + " no existe", HttpStatus.NOT_FOUND);
+            cuentaRepository.save(cuenta);
+        }
+        else {
+            throw new AppExceptions("La cuenta con ID " + id + " no existe", HttpStatus.NOT_FOUND);
         }
     }
 
+
+
 }
+
+
 

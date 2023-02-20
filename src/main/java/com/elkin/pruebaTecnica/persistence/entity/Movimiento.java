@@ -1,6 +1,7 @@
 package com.elkin.pruebaTecnica.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import javax.persistence.*;
 public class Movimiento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -30,5 +31,6 @@ public class Movimiento {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cuenta_id")
+    @JsonIgnore
     private Cuenta cuenta;
 }
