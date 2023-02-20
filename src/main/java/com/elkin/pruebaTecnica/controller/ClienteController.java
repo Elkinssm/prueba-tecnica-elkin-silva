@@ -33,13 +33,13 @@ public class ClienteController {
     @PostMapping()
     public ResponseEntity<?> guardarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         clienteService.guardarCliente(usuarioDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("Cliente creado correctamente", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
         clienteService.actualizarCliente(id, usuarioDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Cliente actualizado correctamente", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
