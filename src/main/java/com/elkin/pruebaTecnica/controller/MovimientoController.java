@@ -2,12 +2,14 @@ package com.elkin.pruebaTecnica.controller;
 
 import com.elkin.pruebaTecnica.persistence.entity.Movimiento;
 import com.elkin.pruebaTecnica.service.MovimientosService;
+import com.elkin.pruebaTecnica.service.dto.CrearCuentaDTO;
 import com.elkin.pruebaTecnica.service.dto.MovimientoClienteDTO;
 import com.elkin.pruebaTecnica.service.dto.MovimientoDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -36,9 +38,8 @@ public class MovimientoController {
 
 
     @GetMapping("/todos")
-    public ResponseEntity<List<Movimiento>> listarMovimientos() {
-        List<Movimiento> movimientos = movimientosService.listarMovimientos();
-        return new ResponseEntity<>(movimientos, HttpStatus.OK);
+    public ResponseEntity<Collection<MovimientoDTO>> listarCuentas() {
+        return new ResponseEntity<>(movimientosService.listarMovimientos(), HttpStatus.OK);
     }
 
 

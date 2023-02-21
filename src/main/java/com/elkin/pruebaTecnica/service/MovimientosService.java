@@ -32,8 +32,18 @@ public class MovimientosService {
     }
 
 
-    public List<Movimiento> listarMovimientos() {
-        return movimientoRepository.findAll();
+    public Collection<MovimientoDTO> listarMovimientos() {
+        List<Movimiento> movimientoList = movimientoRepository.findAll();
+        if (movimientoList.isEmpty()) {
+            throw new AppExceptions("No se encontraron movimientos registrados", HttpStatus.NOT_FOUND);
+        }
+        Set<MovimientoDTO> movimientoDTOs = new HashSet<>();
+        for (Movimiento movimiento : movimientoList) {
+            MovimientoDTO dto = mapper.convertValue(movimiento, MovimientoDTO.class);
+            dto.setCuentaId(movimiento.getCuenta().getId());
+            movimientoDTOs.add(dto);
+        }
+        return movimientoDTOs;
     }
 
 

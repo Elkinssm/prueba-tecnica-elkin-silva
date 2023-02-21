@@ -1,0 +1,783 @@
+{
+	"info": {
+		"_postman_id": "e982b7cd-68a1-4951-a45b-2a79c88fbc1f",
+		"name": "prueba-tecnica",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8623951"
+	},
+	"item": [
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Creación de Usuarios.",
+					"item": [
+						{
+							"name": "Jose Lema",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"contrasenia\": \"1234\",\r\n  \"direccion\": \"Otavalo sn y principal\",\r\n  \"estado\": true,\r\n  \"id\": 0,\r\n  \"nombre\": \"Jose Lema\",\r\n  \"telefono\": \"098254785\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/cliente",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cliente"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Marianela Montalvo",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"contrasenia\": \"5678\",\r\n  \"direccion\": \"Amazonas y NNUU\",\r\n  \"estado\": true,\r\n  \"id\": 0,\r\n  \"nombre\": \"Marianela Montalvo\",\r\n  \"telefono\": \"097548965\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/cliente",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cliente"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Juan Osorio",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"contrasenia\": \"1245\",\r\n  \"direccion\": \"13 junio y Equinoccial\",\r\n  \"estado\": true,\r\n  \"id\": 0,\r\n  \"nombre\": \"Juan Osorio\",\r\n  \"telefono\": \"098874587\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/cliente",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cliente"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Consultar Usuarios",
+					"item": [
+						{
+							"name": "Consultar Usuarios",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/cliente",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cliente"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Consultar Usuario por Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/cliente/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cliente",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Actualizar Usuarios",
+					"item": [
+						{
+							"name": "Actualizar Usuario por Id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"contrasenia\": \"1245\",\r\n  \"direccion\": \"13 junio y Equinoccial\",\r\n  \"estado\": true,\r\n  \"id\": 0,\r\n  \"nombre\": \"Juan Osorio\",\r\n  \"telefono\": \"098874587\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/cliente/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cliente",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Eliminar Usuario",
+					"item": [
+						{
+							"name": "Consultar Usuario por Id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/cliente/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cliente",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Cuentas",
+			"item": [
+				{
+					"name": "Creación de Cuentas de Usuario.",
+					"item": [
+						{
+							"name": "Jose Lema - Ahorros",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"clienteId\": 1,\r\n  \"estado\": true,\r\n  \"numeroCuenta\": \"478758\",\r\n  \"saldoInicial\": 2000,\r\n  \"tipoCuenta\": \"Ahorros\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/cuentas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cuentas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Marianela Montalvo  - Corriente",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"clienteId\": 2,\r\n  \"estado\": true,\r\n  \"numeroCuenta\": \"225487\",\r\n  \"saldoInicial\": 100,\r\n  \"tipoCuenta\": \"Corriente\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/cuentas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cuentas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Juan Osorio  - Ahorros",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"clienteId\": 3,\r\n  \"estado\": true,\r\n  \"numeroCuenta\": \"495878\",\r\n  \"saldoInicial\": 0,\r\n  \"tipoCuenta\": \"Ahorros\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/cuentas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cuentas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Marianela Montalvo  - Ahorros",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"clienteId\": 2,\r\n  \"estado\": true,\r\n  \"numeroCuenta\": \"496825\",\r\n  \"saldoInicial\": 540,\r\n  \"tipoCuenta\": \"Ahorros\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/cuentas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cuentas"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Crear una nueva Cuenta Corriente para Jose Lema",
+					"item": [
+						{
+							"name": "Jose Lema - Corriente",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"clienteId\": 1,\r\n  \"estado\": true,\r\n  \"numeroCuenta\": \"585545\",\r\n  \"saldoInicial\": 1000,\r\n  \"tipoCuenta\": \"Corriente\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/cuentas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cuentas"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Consultar Cuentas",
+					"item": [
+						{
+							"name": "Consultar Todas las Cuentas",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/cuentas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cuentas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Consultar Cuentas por Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/cuentas/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cuentas",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Consultar Cuentas por Nombre y Id",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Actualizar Cuenta",
+					"item": [
+						{
+							"name": "Actualizar Cuenta por Id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"clienteId\": 0,\r\n  \"estado\": true,\r\n  \"id\": 0,\r\n  \"numeroCuenta\": \"496825\",\r\n  \"saldoInicial\": 540,\r\n  \"tipoCuenta\": \"Ahorros\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/cuentas/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cuentas",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Eliminar Cuenta por Id",
+					"item": [
+						{
+							"name": "Eliminar Cuenta por Id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/cuentas/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"cuentas",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Movimientos",
+			"item": [
+				{
+					"name": "Crear Movimientos",
+					"item": [
+						{
+							"name": "Retiro de 575",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cuentaId\": 1,\r\n  \"fecha\": \"15/2/2022\",\r\n  \"id\": 0,\r\n  \"movimiento\": \"DEBITO\",\r\n  \"saldo\": 0,\r\n  \"valor\": 575\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/movimientos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movimientos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deposito de 600",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cuentaId\": 2,\r\n  \"fecha\": \"10/2/2022\",\r\n  \"id\": 0,\r\n  \"movimiento\": \"CREDITO\",\r\n  \"saldo\": 0,\r\n  \"valor\": 600\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/movimientos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movimientos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deposito de 150",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cuentaId\": 3,\r\n  \"fecha\": \"28/2/2022\",\r\n  \"id\": 0,\r\n  \"movimiento\": \"CREDITO\",\r\n  \"saldo\": 0,\r\n  \"valor\": 150\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/movimientos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movimientos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retiro de 540",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cuentaId\": 4,\r\n  \"fecha\": \"8/2/2022\",\r\n  \"id\": 0,\r\n  \"movimiento\": \"DEBITO\",\r\n  \"saldo\": 0,\r\n  \"valor\": 540\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/movimientos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movimientos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Listado de Movimiento, por fechas x usuario.",
+					"item": [
+						{
+							"name": "Marianela Montalvo -  10/2/2022",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/movimientos/por-fecha-y-usuario?clienteId=2&fecha=10/2/2022",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movimientos",
+										"por-fecha-y-usuario"
+									],
+									"query": [
+										{
+											"key": "clienteId",
+											"value": "2"
+										},
+										{
+											"key": "fecha",
+											"value": "10/2/2022"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Marianela Montalvo -  08/2/2022",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/movimientos/por-fecha-y-usuario?clienteId=2&fecha=8/2/2022",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movimientos",
+										"por-fecha-y-usuario"
+									],
+									"query": [
+										{
+											"key": "clienteId",
+											"value": "2"
+										},
+										{
+											"key": "fecha",
+											"value": "8/2/2022"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Listar movimientos",
+					"item": [
+						{
+							"name": "Listar todos los movimientos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/movimientos/todos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movimientos",
+										"todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar movimientos nuevos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/movimientos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movimientos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar movimientos por Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/movimientos/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movimientos",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Actualizar Movimiento",
+					"item": [
+						{
+							"name": "Actualizar Movimiento por Id",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cuentaId\": 0,\r\n  \"fecha\": \"string\",\r\n  \"id\": 0,\r\n  \"movimiento\": \"string\",\r\n  \"saldo\": 0,\r\n  \"valor\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/movimientos/8",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movimientos",
+										"8"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Eliminar Movimiento",
+					"item": [
+						{
+							"name": "Eliminar Cuenta por Id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/movimientos/8",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"movimientos",
+										"8"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
